@@ -1,33 +1,32 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { Subject, filter} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 //MS Auth
 import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
 import { InteractionStatus, RedirectRequest, AuthenticationResult, PopupRequest } from '@azure/msal-browser';
+import { DataService, IMyData } from '../data.service';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    standalone: true,
-    imports: [CommonModule, RouterOutlet]
+  selector: 'app-home',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  title = 'msal-aspnetcoreapi';
+export class HomeComponent implements OnInit {
 
-  protected loginDisplay = false;
-  protected userName = '';
-  protected claims: any =[];
-  private readonly _destroying$ = new Subject<void>();
+  loginDisplay = false;
+  claims: any =[];
+  protected readonly _destroying$ = new Subject<void>();
+  protected myData: IMyData[] = [];
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration
     , private msalBroadcastService: MsalBroadcastService
     , private authService: MsalService
+    , private dataService: DataService
     )
   {
 
@@ -35,7 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    //this.authService.handleRedirectObservable().subscribe();
+    this.authService.handleRedirectObservable().subscribe();
 
     this.setLoginDisplay();
 
@@ -47,23 +46,12 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.checkAndSetActiveAccount();
         this.setLoginDisplay();      
+        this.getClaims(this.authService.instance.getActiveAccount()?.idTokenClaims as Record<string, any>)  
       });
   }
 
-  ngOnDestroy(): void {
-    this._destroying$.next(undefined);
-    this._destroying$.complete();
-  }  
-
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-    if (this.loginDisplay) {  
-      let activeAccount = this.authService.instance.getActiveAccount();
-      this.userName = this.authService.instance.getActiveAccount()!.name!;
-    }
-    else {
-      this.userName = 'No active account';
-    }
   }
 
   checkAndSetActiveAccount(){
@@ -76,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
 
-  login() {
+  loginPopup() {
     if (this.msalGuardConfig.authRequest){
       this.authService.loginPopup({...this.msalGuardConfig.authRequest} as PopupRequest)
         .subscribe((response: AuthenticationResult) => {
@@ -90,7 +78,24 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  logout(){
+  logoutUser(){
     this.authService.logoutRedirect();
   }
+
+  getClaims(claims: Record<string, any>) {
+    if (claims) {
+      Object.entries(claims).forEach((claim: [string, unknown], index: number) => {
+        this.claims.push({id: index, claim: claim[0], value: claim[1]});
+      });
+    }
+  }
+
+  getData(){
+    this.dataService.getData().subscribe(data => this.myData = data);
+  }
+
+  getAuthData(){
+    this.dataService.getAuthData().subscribe(data => this.myData = data);
+  }
+
 }

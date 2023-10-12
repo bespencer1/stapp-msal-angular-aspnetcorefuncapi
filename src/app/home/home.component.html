@@ -1,0 +1,40 @@
+<h1>Home</h1>
+
+<div *ngIf="!loginDisplay">    
+    <p>Please sign-in to see your information.</p>
+</div>
+<div *ngIf="loginDisplay">
+
+    <button (click)="getData()">Get Data</button>
+    <button (click)="getAuthData()">Get Auth Data</button>
+    <table *ngIf="myData.length > 0" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let d of myData">
+                <td>{{d.name}}</td>
+                <td>{{d.value}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <h3>Claims</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Claim</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tr *ngFor="let r of claims">
+            <td>{{r.claim}}</td>
+            <td>{{r.value}}</td>
+        </tr>
+    </table>
+
+</div>
