@@ -4,8 +4,8 @@ import { Subject, filter} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 //MS Auth
-import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
-import { InteractionStatus, RedirectRequest, AuthenticationResult, PopupRequest } from '@azure/msal-browser';
+//import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
+//import { InteractionStatus, RedirectRequest, AuthenticationResult, PopupRequest } from '@azure/msal-browser';
 import { DataService, IMyData } from '../data.service';
 
 @Component({
@@ -17,23 +17,23 @@ import { DataService, IMyData } from '../data.service';
 })
 export class HomeComponent implements OnInit {
 
-  loginDisplay = false;
+  loginDisplay = true;
   claims: any =[];
-  protected readonly _destroying$ = new Subject<void>();
+  //protected readonly _destroying$ = new Subject<void>();
   protected myData: IMyData[] = [];
 
   constructor(
-    @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration
-    , private msalBroadcastService: MsalBroadcastService
-    , private authService: MsalService
-    , private dataService: DataService
+    //@Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration
+    //, private msalBroadcastService: MsalBroadcastService
+    //, private authService: MsalService
+    private dataService: DataService
     )
   {
 
   }
 
   ngOnInit() {
-
+/*
     this.authService.handleRedirectObservable().subscribe();
 
     this.setLoginDisplay();
@@ -48,8 +48,10 @@ export class HomeComponent implements OnInit {
         this.setLoginDisplay();      
         this.getClaims(this.authService.instance.getActiveAccount()?.idTokenClaims as Record<string, any>)  
       });
+      */
   }
 
+  /*
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
   }
@@ -81,6 +83,8 @@ export class HomeComponent implements OnInit {
   logoutUser(){
     this.authService.logoutRedirect();
   }
+
+  */
 
   getClaims(claims: Record<string, any>) {
     if (claims) {

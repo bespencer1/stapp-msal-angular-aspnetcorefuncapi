@@ -9,10 +9,10 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient  } from '@angular/common/http';
 
 // Import MSAL and MSAL browser libraries. 
-import { MsalService, MsalGuard, MsalBroadcastService, MsalInterceptor, MSAL_INSTANCE, MSAL_GUARD_CONFIG, MSAL_INTERCEPTOR_CONFIG } from '@azure/msal-angular';
+//import { MsalService, MsalGuard, MsalBroadcastService, MsalInterceptor, MSAL_INSTANCE, MSAL_GUARD_CONFIG, MSAL_INTERCEPTOR_CONFIG } from '@azure/msal-angular';
 
 // Import the Azure AD B2C configuration 
-import { MSALInstanceFactory, MSALInterceptorConfigFactory, MSALGuardConfigFactory } from './app/auth-config';
+//import { MSALInstanceFactory, MSALInterceptorConfigFactory, MSALGuardConfigFactory } from './app/auth-config';
 
 
 
@@ -22,7 +22,8 @@ bootstrapApplication(AppComponent, {
         BrowserModule, 
         RouterModule.forRoot(APPROUTES),
       )
-      , provideHttpClient(withInterceptorsFromDi()),
+      , provideHttpClient()
+      /*, provideHttpClient(withInterceptorsFromDi()),
         {
             //automatically acquires tokens for outgoing requests 
             //that use the Angular http client to known protected resources
@@ -44,7 +45,7 @@ bootstrapApplication(AppComponent, {
         },
         MsalService,
         MsalGuard,
-        MsalBroadcastService
+        MsalBroadcastService*/
     ]
 })
   .catch(err => console.error(err));

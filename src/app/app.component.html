@@ -1,10 +1,13 @@
 <h1>{{title}}</h1>
-<p *ngIf="!loginDisplay">
+<!--<p *ngIf="!loginDisplay">
   <button (click)="login()">Sign in</button>
 </p>
 <p *ngIf="loginDisplay">
   Hi {{userName}}
   <button *ngIf="loginDisplay" (click)="logout()">Sign out</button>
+</p>-->
+<p>
+  <a routerLink="/data">Data</a>
 </p>
 <div class="container">
   <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->

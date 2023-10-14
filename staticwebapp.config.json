@@ -1,0 +1,36 @@
+{
+    "routes": [
+        {
+            "route": "/api/getData",
+            "allowedRoles": ["anonymous"]
+        },
+        {
+            "route": "/api/getAuthData",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/data",
+            "allowedRoles": ["authenticated"]
+        },
+        {
+            "route": "/login",
+            "rewrite": "/.auth/login/aad"
+        },
+        {
+            "route": "/logout",
+            "redirect": "/.auth/logout"
+        }
+    ],
+    "auth": {
+        "identityProviders": {
+          "azureActiveDirectory": {
+            "userDetailsClaim": "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name",
+            "registration": {
+              "openIdIssuer": "https://cenonb2c.b2clogin.com/2a7361b4-bece-4542-a86e-adedd78294df/v2.0",
+              "clientIdSettingName": "AZURE_CLIENT_ID",
+              "clientSecretSettingName": "AZURE_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+  }

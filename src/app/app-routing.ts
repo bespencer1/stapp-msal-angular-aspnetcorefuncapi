@@ -9,7 +9,11 @@ export const APPROUTES: Routes = [
     // The home component
     path: '',
     component: HomeComponent,
-    canActivate: [MsalGuard]
+  },
+  {
+    // The home component
+    path: 'data',
+    component: HomeComponent,
   },
   {
     path: 'loginerror',
