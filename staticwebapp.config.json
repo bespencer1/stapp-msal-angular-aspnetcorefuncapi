@@ -24,14 +24,12 @@
         {
             "route": "/.auth/login/aad",
             "allowedRoles": ["anonymous"]
+        },
+        {
+            "route": "/.auth/complete",
+            "allowedRoles": ["anonymous"]
         }
     ],
-    "responseOverrides": {
-        "401": {
-          "redirect": "/",
-          "statusCode": 302
-        }
-    },
     "auth": {
         "identityProviders": {
           "azureActiveDirectory": {
