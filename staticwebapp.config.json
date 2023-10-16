@@ -14,13 +14,24 @@
         },
         {
             "route": "/login",
-            "rewrite": "/.auth/login/aad"
+            "rewrite": "/.auth/login/aad?post_login_redirect_uri=https://yellow-rock-01e5e720f.3.azurestaticapps.net",
+            "allowedRoles": ["anonymous"]
         },
         {
             "route": "/logout",
-            "redirect": "/.auth/logout"
+            "redirect": "/.auth/logout?post_logout_redirect_uri=/"
+        },
+        {
+            "route": "/.auth/login/aad",
+            "allowedRoles": ["anonymous"]
         }
     ],
+    "responseOverrides": {
+        "401": {
+          "redirect": "/.auth/login/aad?post_login_redirect_uri=/",
+          "statusCode": 302
+        }
+    },
     "auth": {
         "identityProviders": {
           "azureActiveDirectory": {
